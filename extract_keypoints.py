@@ -1,5 +1,4 @@
 import os
-import cv2
 import json
 import yaml
 import torch
@@ -72,6 +71,7 @@ def extract_keypoints(
     weights_path: str = None, 
     device_id: int = 0
 ):
+    os.makedirs(detections_dir, exist_ok=True)
     config_path = Path(__file__).parent / 'detector_config.yaml'
     if weights_path is None:
         weights_path = Path(__file__).parent / 'weights' / 'kapao_l_coco.pt'
@@ -94,8 +94,8 @@ def parse_args() -> argparse.Namespace:
     
     args.add_argument('--src_images_dir', type=str, required=True)
     args.add_argument('--detections_dir', type=str, required=True)
-    args.add_argument('--weights_path', type=str, default=None)
-    args.add_argument('--device_id', type=int, default=0)
+    args.add_argument('--weights_path', type=str, default=None, required=False)
+    args.add_argument('--device_id', type=int, default=0, required=False)
     
     return args.parse_args()
 
