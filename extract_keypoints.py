@@ -69,10 +69,12 @@ def extract_keypoints(
     src_images_dir: str, 
     detections_dir: str, 
     weights_path: str = None, 
+    config_path: str = None,
     device_id: int = 0
 ):
     os.makedirs(detections_dir, exist_ok=True)
-    config_path = Path(__file__).parent / 'detector_config.yaml'
+    if config_path is None:
+        config_path = Path(__file__).parent / 'detector_config.yaml'
     if weights_path is None:
         weights_path = Path(__file__).parent / 'weights' / 'kapao_l_coco.pt'
     
@@ -95,6 +97,7 @@ def parse_args() -> argparse.Namespace:
     args.add_argument('--src_images_dir', type=str, required=True)
     args.add_argument('--detections_dir', type=str, required=True)
     args.add_argument('--weights_path', type=str, default=None, required=False)
+    args.add_argument('--config_path', type=str, default=None, required=False)
     args.add_argument('--device_id', type=int, default=0, required=False)
     
     return args.parse_args()
@@ -106,5 +109,6 @@ if __name__ == "__main__":
         src_images_dir=args.src_images_dir,
         detections_dir=args.detections_dir,
         weights_path=args.weights_path,
+        config_path=args.config_path,
         device_id=args.device_id,
     )
